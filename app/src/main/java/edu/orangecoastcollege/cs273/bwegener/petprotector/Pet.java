@@ -2,10 +2,13 @@ package edu.orangecoastcollege.cs273.bwegener.petprotector;
 
 import android.net.Uri;
 
-import java.net.URI;
-
 /**
- * Created by Brandy on 10/25/17.
+ *
+ *
+ * @author Brian Wegener
+ * @version 1.0
+ *
+ * Created on 10/25/17.
  */
 
 public class Pet {
@@ -17,14 +20,15 @@ public class Pet {
     private Uri mImageURI;
 
     public Pet() {
-        this(-1, "", "", "", "");
+        this(-1, "", "", "", Uri.parse(""));
     }
 
     public Pet(String name, String details, String phone, Uri imageURI) {
         this(-1, name, details, phone, imageURI);
     }
 
-    public Pet(String name, String details, String phone, Uri imageURI) {
+    public Pet(int id, String name, String details, String phone, Uri imageURI) {
+        mId = id;
         mName = name;
         mDetails = details;
         mPhone = phone;

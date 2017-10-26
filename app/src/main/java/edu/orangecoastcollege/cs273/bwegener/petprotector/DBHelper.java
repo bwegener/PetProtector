@@ -7,10 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
+ *
+ * @author Brian Wegener
+ * @version 1.0
+ *
  * Created on 10/25/17.
  */
 
@@ -24,7 +27,7 @@ class DBHelper extends SQLiteOpenHelper {
     private static final String FIELD_NAME = "name";
     private static final String FIELD_DETAILS = "details";
     private static final String FIELD_PHONE = "phone";
-    private static final Uri FIELD_IMAGE_URI = "imageURI";
+    private static final String FIELD_IMAGE_URI = "imageURI";
 
 
     public DBHelper(Context context) { super (context, DATABASE_NAME, null, DATABASE_VERSION); }
@@ -53,10 +56,10 @@ class DBHelper extends SQLiteOpenHelper {
         values.put(FIELD_NAME, pet.getName());
         values.put(FIELD_DETAILS, pet.getDetails());
         values.put(FIELD_PHONE, pet.getPhone());
-        values.put(FIELD_IMAGE_URI, pet.getImageURI());
+        values.put(FIELD_IMAGE_URI, pet.getImageURI().toString());
 
         long id = db.insert(DATABASE_TABLE, null, values);
-        pet.setId(id);
+        pet.setId((int) id);
         db.close();
     }
 
@@ -72,7 +75,7 @@ class DBHelper extends SQLiteOpenHelper {
             do {
                 Pet pet = new Pet(cursor.getInt(0), cursor.getString(1),
                         cursor.getString(2), cursor.getString(3),
-                        cursor.getNotificationUri(4));
+                        Uri.parse(cursor.getString(4)));
                 petList.add(pet);
             }
             while (cursor.moveToNext());
