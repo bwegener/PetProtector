@@ -21,7 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * The <code>PetListActivity</code> handles the activity where the pets
+ * are kept in a list.
+ * It stores their names, details, and associated phone numbers.
  *
  * @author Brian Wegener
  * @version 1.0
@@ -45,6 +47,11 @@ public class PetListActivity extends AppCompatActivity {
     private static final int DENIED = PackageManager.PERMISSION_DENIED;
 
 
+    /**
+     * The onCreate sets up the default pet image, calls the xml file,
+     * and sets the image URI
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +63,12 @@ public class PetListActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * This allows the user to create a custom pet image.
+     * Permissions need to check first if the user will allow the camera or galleries to be
+     * accessed.
+     * @param v
+     */
     public void selectPetImage(View v)
     {
         List<String> permsList = new ArrayList<>();
@@ -95,6 +108,12 @@ public class PetListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This is the result if the user allowed permissions for camera/gallery
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -107,9 +126,15 @@ public class PetListActivity extends AppCompatActivity {
             // sets the image to the imageUri
             petImageView.setImageURI(imageUri);
         }
-
     }
 
+    /**
+     * The static <code>getUriFromResource</code> gets the uri
+     * from the package, type, and name
+     * @param context
+     * @param resId
+     * @return
+     */
     // This Code never changes
     public static Uri getUriFromResource(Context context, int resId)
     {
@@ -124,9 +149,12 @@ public class PetListActivity extends AppCompatActivity {
 
         // Parse the String in order to construct a URI
         return Uri.parse(uri);
-
     }
 
+    /**
+     * This adds a pet to the view
+     * @param v
+     */
     public void addPet(View v)
     {
         nameET = (EditText) findViewById(R.id.nameET);
@@ -140,7 +168,7 @@ public class PetListActivity extends AppCompatActivity {
 
         Pet pet = new Pet(name, details, phone, imageUri);
 
-        db.addPet(pet);
+        // db.addPet(pet);
 
 
     }

@@ -4,7 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 /**
- *
+ * The <code>PetDetailsActivity</code> will store the pet's name,
+ * details, and phone number, as well as custom image URI
  *
  * @author Brian Wegener
  * @version 1.0

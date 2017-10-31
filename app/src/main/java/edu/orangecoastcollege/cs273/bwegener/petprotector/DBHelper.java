@@ -10,6 +10,9 @@ import android.net.Uri;
 import java.util.ArrayList;
 
 /**
+ * The <code>DBHelper</code> creates a link to the
+ * SQLite database and allows for the database to be added to,
+ * upgraded, deleted, or get all elements from the database
  *
  * @author Brian Wegener
  * @version 1.0
@@ -30,8 +33,16 @@ class DBHelper extends SQLiteOpenHelper {
     private static final String FIELD_IMAGE_URI = "imageURI";
 
 
+    /**
+     * This sets up the Database.
+     * @param context
+     */
     public DBHelper(Context context) { super (context, DATABASE_NAME, null, DATABASE_VERSION); }
 
+    /**
+     * The onCreate sets up the table, with the key, name, details, phone, and image uri
+     * @param database
+     */
     @Override
     public void onCreate(SQLiteDatabase database) {
         String table = "CREATE TABLE " + DATABASE_TABLE + "(" +
@@ -43,12 +54,23 @@ class DBHelper extends SQLiteOpenHelper {
         database.execSQL(table);
     }
 
+    /**
+     * This upgrades the database table, by first dropping it
+     * then calling the onCreate
+     * @param database
+     * @param i
+     * @param i1
+     */
     @Override
     public void onUpgrade(SQLiteDatabase database, int i, int i1) {
         database.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
         onCreate(database);
     }
 
+    /**
+     * This adds a pet to the database
+     * @param pet
+     */
     public void addPet(Pet pet) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -63,6 +85,10 @@ class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    /**
+     * This gets all the pets from the database
+     * @return
+     */
     public ArrayList<Pet> getAllPets() {
         ArrayList<Pet> petList = new ArrayList<>();
         SQLiteDatabase database = this.getReadableDatabase();
@@ -86,7 +112,9 @@ class DBHelper extends SQLiteOpenHelper {
         return petList;
     }
 
-
+    /**
+     * This deletes all the pets from the database
+     */
     public void deleteAllPets()
     {
         SQLiteDatabase db = getWritableDatabase();
