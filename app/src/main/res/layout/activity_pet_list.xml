@@ -17,6 +17,7 @@
         android:text="@string/enter"
         android:textSize="40sp"
         android:padding="10dp"
+        android:textColor="@color/dark_blue"
         />
 
     <ImageView
@@ -27,7 +28,8 @@
         android:contentDescription="@string/photo"
         app:srcCompat="@drawable/none"
         android:clickable="true"
-        android:onClick="selectPetImage"/>
+        android:onClick="selectPetImage"
+        />
 
     <EditText
         android:id="@+id/nameET"
@@ -36,7 +38,8 @@
         android:ems="10"
         android:layout_margin="5dp"
         android:inputType="textPersonName"
-        android:text="@string/name" />
+        android:hint="@string/name"
+        />
 
     <EditText
         android:id="@+id/detailsET"
@@ -45,7 +48,7 @@
         android:ems="10"
         android:layout_margin="5dp"
         android:inputType="textPersonName"
-        android:text="@string/details" />
+        android:hint="@string/details" />
 
     <EditText
         android:id="@+id/phoneET"
@@ -54,7 +57,7 @@
         android:ems="10"
         android:layout_margin="5dp"
         android:inputType="textPersonName"
-        android:text="@string/phone_number" />
+        android:hint="@string/phone_number" />
 
     <Button
         android:id="@+id/addPetButton"
@@ -63,5 +66,20 @@
         android:layout_gravity="center_horizontal"
         android:onClick="addPet"
         android:text="@string/add_button_text" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/my_pets"
+        android:textColor="@color/dark_blue"/>
+
+    <ListView
+        android:id="@+id/petListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
+    </ListView>
 
 </LinearLayout>

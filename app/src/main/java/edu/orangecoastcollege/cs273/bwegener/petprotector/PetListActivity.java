@@ -6,16 +6,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.PhoneNumberUtils;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +44,11 @@ public class PetListActivity extends AppCompatActivity {
     private EditText detailsET;
     private EditText phoneET;
 
-    SQLiteDatabase db;
+    private List<Pet> petList;
+    private PetListAdapter petListAdapter;
+    private ListView petListView;
+
+    private DBHelper db;
 
     // Constant for permissions:
     private static final int GRANTED = PackageManager.PERMISSION_GRANTED;
@@ -59,7 +67,71 @@ public class PetListActivity extends AppCompatActivity {
 
         petImageView = (ImageView) findViewById(R.id.petImageView);
 
+        // Deletes Pets
+        // db.deleteAllPets();
+
         petImageView.setImageURI(getUriFromResource(this, R.drawable.none));
+
+        db = new DBHelper(this);
+
+        petImageView = (ImageView) findViewById(R.id.petImageView);
+        nameET = (EditText) findViewById(R.id.nameET);
+        detailsET = (EditText) findViewById(R.id.detailsET);
+        phoneET = (EditText) findViewById(R.id.phoneET);
+        petListView = (ListView) findViewById(R.id.petListView);
+
+        petList = db.getAllPets();
+        petListAdapter = new PetListAdapter(this, R.layout.pet_list_item, petList);
+        petListView.setAdapter(petListAdapter);
+
+        imageUri = getUriFromResource(this, R.drawable.none);
+        petImageView.setImageURI(imageUri);
+    }
+
+
+    /**
+     * This adds a pet to the list and to the database.
+     * @param v
+     */
+    public void addPet(View v)
+    {
+        String name = nameET.getText().toString();
+        String details = detailsET.getText().toString();
+        String phone = PhoneNumberUtils.formatNumber(phoneET.getText().toString());
+
+        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(details) || TextUtils.isEmpty(phone))
+            Toast.makeText(this, "All information must be provided.", Toast.LENGTH_SHORT).show();
+        else
+        {
+            int newPetId = db.addPet(new Pet(name, details, phone, imageUri));
+            petList.add(new Pet(newPetId, name, details, phone, imageUri));
+            petListAdapter.notifyDataSetChanged();
+
+            nameET.setText("");
+            detailsET.setText("");
+            phoneET.setText("");
+            imageUri = getUriFromResource(this, R.drawable.none);
+            petImageView.setImageURI(imageUri);
+        }
+    }
+
+    /**
+     * This allows the user to view the pet details.
+     * @param v
+     */
+    public void viewPetDetails(View v)
+    {
+        // Retrieves a pet object in tag of selected item
+        LinearLayout selectedItem = (LinearLayout) v;
+        Pet selectedPet = (Pet) selectedItem.getTag();
+
+        Intent detailsIntent = new Intent(this, PetDetailsActivity.class);
+        detailsIntent.putExtra("Name", selectedPet.getName());
+        detailsIntent.putExtra("Details", selectedPet.getDetails());
+        detailsIntent.putExtra("Phone", selectedPet.getPhone());
+        detailsIntent.putExtra("ImageURI", selectedPet.getImageURI().toString());
+
+        startActivity(detailsIntent);
     }
 
 
@@ -149,27 +221,5 @@ public class PetListActivity extends AppCompatActivity {
 
         // Parse the String in order to construct a URI
         return Uri.parse(uri);
-    }
-
-    /**
-     * This adds a pet to the view
-     * @param v
-     */
-    public void addPet(View v)
-    {
-        nameET = (EditText) findViewById(R.id.nameET);
-        detailsET = (EditText) findViewById(R.id.detailsET);
-        phoneET = (EditText) findViewById(R.id.phoneET);
-
-        String name = nameET.getText().toString();
-        String details = detailsET.getText().toString();
-        String phone = phoneET.getText().toString();
-
-
-        Pet pet = new Pet(name, details, phone, imageUri);
-
-        // db.addPet(pet);
-
-
     }
 }

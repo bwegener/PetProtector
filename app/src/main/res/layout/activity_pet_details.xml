@@ -12,6 +12,7 @@
         android:id="@+id/petImageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/photo"
         app:srcCompat="@drawable/none" />
 
     <TextView
@@ -19,19 +20,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/dark_blue"
+        android:text="@string/name" />
 
     <TextView
         android:id="@+id/detailsTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/pale_blue"
+        android:text="@string/details" />
 
     <TextView
         android:id="@+id/phoneTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/pale_blue"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:layout_gravity="center_vertical"
-        android:text="" />
+        android:text="@string/phone_number" />
+
 </LinearLayout>

@@ -26,7 +26,7 @@ class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_TABLE = "Pets";
     private static final int DATABASE_VERSION = 1;
 
-    private static final String KEY_FIELD_ID = "id";
+    private static final String KEY_FIELD_ID = "_id";
     private static final String FIELD_NAME = "name";
     private static final String FIELD_DETAILS = "details";
     private static final String FIELD_PHONE = "phone";
@@ -71,7 +71,7 @@ class DBHelper extends SQLiteOpenHelper {
      * This adds a pet to the database
      * @param pet
      */
-    public void addPet(Pet pet) {
+    public int addPet(Pet pet) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -83,6 +83,8 @@ class DBHelper extends SQLiteOpenHelper {
         long id = db.insert(DATABASE_TABLE, null, values);
         pet.setId((int) id);
         db.close();
+
+        return (int) id;
     }
 
     /**
